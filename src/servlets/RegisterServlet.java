@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -21,33 +22,26 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
 
+        System.out.println("regist:");
+        User user = new User();
+        Gson gson = new Gson();
         try (PrintWriter out = response.getWriter()) {
 
             //获得请求中传来的用户名和密码
-            String userName = request.getParameter("UserName").trim();
-            String password = request.getParameter("Password").trim();
-            String userId = request.getParameter("UserId").trim();
+            BufferedReader reader = request.getReader();
+            String userStr = reader.readLine();
+            System.out.println(userStr);
+            reader.close();
+
+            user=gson.fromJson(userStr,User.class);
+
 
             //密码验证结果
-            int result = registUser(userName,password,userId);
+            int result = registUser(user.getUsername(),user.getPassword(),user.getUserid());
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, Integer> params = new HashMap<>();
+            params.put("result",result);
 
-
-            switch (result){
-
-                case 2:
-                    params.put("Result","注册失败");
-                    break;
-                case 1:
-                    params.put("Result","用户名已存在");
-                    break;
-                case 0:
-                    params.put("Result","注册成功");
-                    break;
-
-            }
-            Gson gson = new Gson();
             String s = gson.toJson(params);
             out.write(s);
         }
