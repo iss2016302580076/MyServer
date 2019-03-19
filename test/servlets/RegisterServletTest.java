@@ -54,7 +54,7 @@ public class RegisterServletTest {
         String url=null;
         String json=null;
         try {
-            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/testServer_war_exploded/register").openConnection();
+            conn = (HttpURLConnection) new URL("http://localhost:8080/register").openConnection();
             conn.setConnectTimeout(50000);
             conn.setReadTimeout(30000);
             conn.setDoInput(true);

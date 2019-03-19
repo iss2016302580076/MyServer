@@ -28,7 +28,7 @@ public class LoginServletTest {
         String url=null;
         String json=null;
         try {
-            conn = (HttpURLConnection) new URL("http://192.168.1.102:8080/testServer_war_exploded/login").openConnection();
+            conn = (HttpURLConnection) new URL("http://localhost:8080/login").openConnection();
             conn.setConnectTimeout(50000);
             conn.setReadTimeout(30000);
             conn.setDoInput(true);
@@ -80,9 +80,6 @@ public class LoginServletTest {
                 System.out.println("登录成功！！！");
             }else if (flag==1){
                 //登录失败
-                System.out.println("连接数据库失败！！！");
-            }
-            else if(flag == 2){
                 System.out.println("用户名或密码错误！！！");
             }
         }
